@@ -4,7 +4,7 @@ and follow these steps :
   
   1. Navigate towards the App folder
   2. Open terminal
-  # 3. type npm start // it will start the development server, i'd used nodemon for auto updataion while making changes
+  # 3. type npm start // it will start the development server, i'd used nodemon for auto updation while making changes
   
 
 # Here's Some sceenshot below
