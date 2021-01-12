@@ -4,11 +4,12 @@
     "description": "",
     "main": "server.js",
     "engines": {
-        "node": "12.16.1"
+        "node": "12.16.1",
+        "npm": "6.13.4"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon --exec babel-node server.js "
+        "start": "node server.js "
     },
     "author": "Kishan",
     "license": "ISC",
@@ -19,10 +20,6 @@
         "ejs": "^3.1.5",
         "express": "^4.17.1",
         "mongoose": "^5.11.11",
-        "nodemon": "^2.0.7",
-        "serve": "^11.3.2"
-    },
-    "devDependencies": {
-        "@babel/node": "^7.12.10"
+        "nodemon": "^2.0.7"
     }
 }
