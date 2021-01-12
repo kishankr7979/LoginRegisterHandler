@@ -11,18 +11,18 @@ const app = express();
 
 // mongdb cloud connection is here
 mongoose
-  .connect("mongodb+srv://KishanKumar:kishankr@firstproject.sgz9l.mongodb.net/authenticator?retryWrites=true&w=majority", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
-  .then(() => {
-    console.log("connected to mongodb cloud! :)");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .connect("mongodb+srv://KishanKumar:kishankr@firstproject.sgz9l.mongodb.net/authenticator?retryWrites=true&w=majority", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+    })
+    .then(() => {
+        console.log("connected to mongodb cloud! :)");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 
 // middlewares
 app.use(express.urlencoded({ extened: true }));
@@ -31,99 +31,99 @@ app.set("view engine", "ejs");
 
 // cookie session
 app.use(
-  cookieSession({
-    keys: ["randomStringASyoulikehjudfsajk"],
-  })
+    cookieSession({
+        keys: ["randomStringASyoulikehjudfsajk"],
+    })
 );
 
 // route for serving frontend files
 app
-  .get("/", (req, res) => {
-    res.render("index");
-  })
-  .get("/login", (req, res) => {
-    res.render("login");
-  })
-  .get("/register", (req, res) => {
-    res.render("register");
-  })
+    .get("/", (req, res) => {
+        res.render("index");
+    })
+    .get("/login", (req, res) => {
+        res.render("login");
+    })
+    .get("/register", (req, res) => {
+        res.render("register");
+    })
 
-  .get("/home", authenticateUser, (req, res) => {
+.get("/home", authenticateUser, (req, res) => {
     res.render("home", { user: req.session.user });
-  });
+});
 
 // route for handling post requirests
 app
-  .post("/login", async (req, res) => {
-    const { email, password } = req.body;
+    .post("/login", async(req, res) => {
+        const { email, password } = req.body;
 
-    // check for missing filds
-    if (!email || !password) {
-      res.send("Please enter all the fields");
-      return;
-    }
+        // check for missing filds
+        if (!email || !password) {
+            res.send("Please enter all the fields");
+            return;
+        }
 
-    const doesUserExits = await User.findOne({ email });
+        const doesUserExits = await User.findOne({ email });
 
-    if (!doesUserExits) {
-      res.send("invalid username or password");
-      return;
-    }
+        if (!doesUserExits) {
+            res.send("invalid username or password");
+            return;
+        }
 
-    const doesPasswordMatch = await bcrypt.compare(
-      password,
-      doesUserExits.password
-    );
+        const doesPasswordMatch = await bcrypt.compare(
+            password,
+            doesUserExits.password
+        );
 
-    if (!doesPasswordMatch) {
-      res.send("invalid useranme or password");
-      return;
-    }
+        if (!doesPasswordMatch) {
+            res.send("invalid useranme or password");
+            return;
+        }
 
-    // else he\s logged in
-    req.session.user = {
-      email,
-    };
+        // else he\s logged in
+        req.session.user = {
+            email,
+        };
 
-    res.redirect("/home");
-  })
-  .post("/register", async (req, res) => {
-    const { email, password } = req.body;
+        res.redirect("/home");
+    })
+    .post("/register", async(req, res) => {
+        const { email, password } = req.body;
 
-    // check for missing filds
-    if (!email || !password) {
-      res.send("Please enter all the fields");
-      return;
-    }
+        // check for missing filds
+        if (!email || !password) {
+            res.send("Please enter all the fields");
+            return;
+        }
 
-    const doesUserExitsAlreay = await User.findOne({ email });
+        const doesUserExitsAlready = await User.findOne({ email });
 
-    if (doesUserExitsAlreay) {
-      res.send("A user with that email already exits please try another one!");
-      return;
-    }
+        if (doesUserExitsAlready) {
+            res.send("A user with that email already exits please try another one!");
+            return;
+        }
 
-    // lets hash the password
-    const hashedPassword = await bcrypt.hash(password, 12);
-    const latestUser = new User({ email, password: hashedPassword });
+        // lets hash the password
+        const hashedPassword = await bcrypt.hash(password, 12);
+        const latestUser = new User({ email, password: hashedPassword });
 
-    latestUser
-      .save()
-      .then(() => {
-        res.send("registered account!");
-        return;
-      })
-      .catch((err) => console.log(err));
-  });
+        latestUser
+            .save()
+            .then(() => {
+                res.send("registered account!");
+                return;
+            })
+            .catch((err) => console.log(err));
+    });
 
 //logout
 app.get("/logout", authenticateUser, (req, res) => {
-  req.session.user = null;
-  res.redirect("/login");
+    req.session.user = null;
+    res.redirect("/login");
 });
 
 // server config
 const PORT = 2050;
 app.listen(PORT, () => {
-  console.log(`Server started listening on port: `,PORT);
+    console.log(`Server started listening on port: `, PORT);
 });
