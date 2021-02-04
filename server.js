@@ -123,7 +123,7 @@ app.get("/logout", authenticateUser, (req, res) => {
 });
 
 // server config
-let port = process.env.PORT || 200;
+let port = process.env.PORT || 80;
 app.listen(port, () => {
     console.log(`Server started listening on port: `, port);
 });
