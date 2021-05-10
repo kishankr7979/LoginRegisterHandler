@@ -11,4 +11,10 @@ A Node.js based application for User's registration and login built over Express
   ``
     cd LoginRegisterHandler
       ``
-## Start the 
+## Start the Script in local Machine
+   ``
+    node server.js
+      ``
+      
+# Pros
+|-> We can use this Login/Register Gateway for any app like plug n play, Just connect the your required Database inside the codebase.(MongoDB)
